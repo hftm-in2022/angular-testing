@@ -1,0 +1,120 @@
+@if (loginResponse(); as loginResponse) {
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav
+      #drawer
+      class="sidenav"
+      fixedInViewport
+      [attr.role]="'dialog'"
+      [mode]="'over'"
+      [opened]="false"
+    >
+      <mat-toolbar>Menu</mat-toolbar>
+      <mat-nav-list>
+        @if (showCreateButton()) {
+          <a
+            mat-list-item
+            [routerLink]="['/add-blog/']"
+            (click)="drawer.toggle()"
+            >Erstelle einen neuen Blog!</a
+          >
+        }
+        @switch (loginResponse.isAuthenticated) {
+          @case (false) {
+            <a
+              mat-list-item
+              tabindex="0"
+              (click)="login.emit()"
+              (keydown)="login.emit()"
+              >Login</a
+            >
+          }
+          @case (true) {
+            <a
+              mat-list-item
+              tabindex="1"
+              (click)="logoff.emit()"
+              (keydown)="logoff.emit()"
+              >Log out</a
+            >
+          }
+        }
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-toolbar color="primary">
+        @if (isHandset()) {
+          <button
+            type="button"
+            aria-label="Toggle sidenav"
+            mat-icon-button
+            (click)="drawer.toggle()"
+          >
+            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+          </button>
+        }
+
+        <span [routerLink]="['/overview/']">Blog Frog</span>
+
+        <mat-form-field class="search-field">
+          <input
+            type="text"
+            matInput
+            placeholder="Search"
+            name="search"
+            (change)="searchstringChanged($event)"
+            [value]="searchstring()"
+          />
+          <button matSuffix mat-button><mat-icon>search</mat-icon></button>
+        </mat-form-field>
+        <span class="spacer"></span>
+
+        @if (isHandset() === false && showCreateButton()) {
+          <button id="add-blog" [routerLink]="['/add-blog/']" mat-flat-button>
+            Erstelle einen neuen Blog!
+          </button>
+        }
+        @if (loginResponse.isAuthenticated) {
+          <div
+            id="profileImage"
+            [innerHTML]="initials()"
+            [matMenuTriggerFor]="beforeMenu"
+            matTooltip="You are logged in as {{
+              loginResponse.userData.preferred_username
+            }}"
+          ></div>
+          <mat-menu #beforeMenu="matMenu" xPosition="before">
+            <button mat-menu-item>
+              <mat-icon>account_circle</mat-icon>
+              <span>My Account</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>favorite</mat-icon>
+              <span>My favorite blogs</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item (click)="logoff.emit()">
+              <mat-icon>logout</mat-icon>
+              <span>Log out</span>
+            </button>
+          </mat-menu>
+        } @else {
+          <button
+            mat-icon-button
+            matTooltip="Login"
+            class="example-icon favorite-icon"
+            aria-label="Login button"
+            (click)="login.emit()"
+          >
+            <mat-icon>login</mat-icon>
+          </button>
+        }
+      </mat-toolbar>
+
+      @if (isLoading()) {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      } @else {
+        <router-outlet></router-outlet>
+      }
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+}

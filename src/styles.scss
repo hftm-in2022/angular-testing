@@ -1,0 +1,27 @@
+/* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
+@use "./app/features/add-blog-page/add-blog-page.component-theme" as
+  add-blog-page;
+
+@include mat.core();
+
+@import "./themes/default-theme";
+
+@mixin custom-components-theme($theme) {
+  @include add-blog-page.color($theme);
+  // add other custom components here
+}
+
+.default-theme {
+  @include mat.all-component-themes($blog-frog-default-theme);
+  @include custom-components-theme($blog-frog-default-theme);
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

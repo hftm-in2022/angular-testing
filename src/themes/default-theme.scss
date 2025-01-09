@@ -1,0 +1,13 @@
+@use "@angular/material" as mat;
+
+$blog-frog-primary: mat.define-palette(mat.$deep-purple-palette);
+$blog-frog-accent: mat.define-palette(mat.$amber-palette);
+
+$blog-frog-default-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $blog-frog-primary,
+      accent: $blog-frog-accent,
+    ),
+  )
+);

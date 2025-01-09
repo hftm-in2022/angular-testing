@@ -1,0 +1,16 @@
+@use "sass:map";
+@use "@angular/material" as mat;
+
+@mixin color($theme) {
+  // Get the color config from the theme.
+  $color-config: mat.get-color-config($theme);
+
+  // Get the warn color palette from the color-config.
+  $warn-palette: map.get($color-config, "warn");
+
+  .error-message {
+    // Read the 500 hue from the primary color palette.
+    color: mat.get-color-from-palette($warn-palette, 500);
+    background-color: mat.get-color-from-palette($warn-palette, 100);
+  }
+}

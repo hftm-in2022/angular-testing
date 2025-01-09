@@ -1,0 +1,59 @@
+<mat-toolbar
+  class="back-navigation"
+  color="primary"
+  [routerLink]="['/overview/']"
+>
+  <mat-icon>arrow_back</mat-icon>Zurück zur Übersicht
+</mat-toolbar>
+
+@if (blogStateService.state(); as state) {
+  <div class="blog-container">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="blog-input">
+        @if (state.error) {
+          <div class="error-message" color="warn">
+            Oups, der Blog konnte nicht gespeichert werden. Bitte versuchen Sie
+            es später nochmals.
+          </div>
+        }
+        <button
+          type="submit"
+          class="submit-button"
+          [disabled]="!form.valid && submitButtonDisabled()"
+          mat-raised-button
+          color="primary"
+        >
+          Publish blog
+        </button>
+        <button
+          type="reset"
+          mat-raised-button
+          color="secondary"
+          (click)="form.reset()"
+        >
+          Reset
+        </button>
+        <mat-form-field appearance="fill">
+          <mat-label>Title</mat-label>
+          <input matInput formControlName="title" />
+          <mat-error>
+            @if (form.controls.title.hasError("required")) {
+              <span>Title should not be empty</span>
+            } @else if (form.controls["title"].errors?.["pattern"]) {
+              <span>Not a valid Title</span>
+            } @else if (form.get("title")?.errors?.["custom"]) {
+              <span>Custom Validator</span>
+            } @else if (form.hasError("customAsync", "title")) {
+              <span>Custom Async Validator</span>
+            }
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Tell your story...</mat-label>
+          <textarea matInput rows="20" formControlName="content"></textarea>
+          <mat-error>Content should not be empty</mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+}

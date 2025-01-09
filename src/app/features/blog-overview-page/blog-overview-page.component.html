@@ -1,0 +1,22 @@
+@if (model()) {
+  <div class="blog-container">
+    @for (blog of model().data; track blog.id; let i = $index) {
+      <BlogOverviewCardComponent
+        [index]="i"
+        [model]="blog"
+        [routeCommands]="['/detail/', blog.id]"
+        (likeBlog)="likeBlog($event)"
+      />
+    }
+  </div>
+}
+
+<mat-paginator
+  [length]="model().totalCount"
+  [pageSize]="model().pageSize"
+  [pageSizeOptions]="pageSizes"
+  [pageIndex]="model().pageIndex"
+  (page)="handlePageEvent($event)"
+  aria-label="Select page"
+>
+</mat-paginator>
