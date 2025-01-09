@@ -5,7 +5,7 @@ The `TestBed` is used to configure the testing module and initialize the compone
 ```typescript
 beforeEach(() => {
   TestBed.configureTestingModule({
-    imports: [MyModule],         // Components to test (standalone=true), 
+    imports: [MyComponent],         // Components to test (standalone=true), 
     providers: [MyService],      // Services or providers used
   });
 });
