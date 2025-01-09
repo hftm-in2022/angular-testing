@@ -18,7 +18,7 @@ describe('BlogOverviewPageComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            queryParams: of({ from: 1 }),
+            queryParams: of({ searchstring: 1 }),
           },
         },
         MockProvider(BlogBackendService),

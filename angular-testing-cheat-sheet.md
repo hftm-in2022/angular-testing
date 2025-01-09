@@ -5,8 +5,7 @@ The `TestBed` is used to configure the testing module and initialize the compone
 ```typescript
 beforeEach(() => {
   TestBed.configureTestingModule({
-    declarations: [MyComponent], // Components to test
-    imports: [MyModule],         // Modules used by the component
+    imports: [MyModule],         // Components to test (standalone=true), 
     providers: [MyService],      // Services or providers used
   });
 });
@@ -30,7 +29,7 @@ import { MockComponent } from 'ng-mocks';
 
 beforeEach(() => {
   TestBed.configureTestingModule({
-    declarations: [MockComponent(ChildComponent)],
+    imports: [MockComponent(ChildComponent)],
   });
 });
 ```
@@ -52,14 +51,14 @@ import { MockPipe } from 'ng-mocks';
 
 beforeEach(() => {
   TestBed.configureTestingModule({
-    declarations: [MockPipe(MyPipe, value => `Mocked: ${value}`)],
+    imports: [MockPipe(MyPipe, value => `Mocked: ${value}`)], // for standalone pipes
   });
 });
 ```
 
 ## 4. Setting Component Inputs
 ```typescript
-fixture.componentRef.setInput('myInput', 'value');
+fixture.componentRef.setInput('myInput', 'value'); // for signal inputs
 ```
 
 ## 5. Triggering Click Events
@@ -154,6 +153,18 @@ providers: [
   },
 ],
 ```
+
+### Mock `ActivatedRoute` using ng-mocks
+```typescript
+providers: [
+  MockProvider(ActivatedRoute,
+    useValue: {
+      queryParams: of({ param1: 'value' }),
+    },
+  ),
+],
+```
+
 
 ## 10. Verifying Styles
 ```typescript
