@@ -46,7 +46,15 @@ describe('BlogOverviewPageComponent', () => {
   });
 
   it('should invoke the likeBlog function when the likeBlog event handler is triggered', () => {
-    // TODO: implement
+    const spy = spyOn(component, 'likeBlog');
+
+    const blogOverviewCardComponent = ngMocks.find(BlogOverviewCardComponent);
+    blogOverviewCardComponent.triggerEventHandler('likeBlog', { id: 1, likedByMe: false });
+
+    expect(spy).toHaveBeenCalledWith({ id: 1, likedByMe: false });
+
+
+
   });
 
   it('should render a BlogOverviewCardComponent for each blog', () => {

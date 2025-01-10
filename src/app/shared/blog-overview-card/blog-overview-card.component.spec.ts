@@ -43,22 +43,56 @@ describe('BlogOverviewCardComponent', () => {
   });
 
   it('should create', () => {
-    // TODO: implement
+    expect(component).toBeTruthy();
   });
 
   it('should display the title', () => {
-    // TODO: implement
+     fixture.componentRef.setInput('model', {title: 'Test'});
+     fixture.detectChanges();
+     const element: HTMLElement = fixture.debugElement.query(By.css('[data-testid="title"]')).nativeElement;
+     expect(element.innerText).toBe('Test');
   });
 
   it('should show the like button in black when likedByMe is false', () => {
-    // TODO: implement
+    // arrange
+    fixture.componentRef.setInput('model', {likedByMe: false});
+    fixture.detectChanges();
+
+    // act
+    const likeButton: HTMLElement = fixture.debugElement.query(By.css('[data-testid="like-button-icon"]')).nativeElement;
+
+    // assert
+    expect(likeButton.style['color']).toBe('black');
+
   });
 
   it('should show the like button in red when likedByMe is true', () => {
-    // TODO: implement
+    // arrange
+    fixture.componentRef.setInput('model', {likedByMe: true});
+    fixture.detectChanges();
+
+    // act
+    const likeButton: HTMLElement = fixture.debugElement.query(By.css('[data-testid="like-button-icon"]')).nativeElement;
+
+    // assert
+    expect(likeButton.style['color']).toBe('red');
   });
 
   it('should navigate to a certain blog when the image or header is clicked', () => {
-    // TODO: implement
+    // arrange
+    fixture.componentRef.setInput('model', {title: 'Test'});
+    fixture.detectChanges();
+    const routerSpy = spyOn(routerMock, 'navigateByUrl');
+
+    const imageElement = fixture.debugElement.query(By.css('[data-testid="title"]'));
+    
+    // act
+    imageElement.nativeElement.click();
+
+    // assert
+    const urlTree: UrlTree = routerMock.createUrlTree(['/path', 1]);
+    expect(routerSpy).toHaveBeenCalledWith(urlTree, jasmine.any(Object));
+
+
   });
 });
