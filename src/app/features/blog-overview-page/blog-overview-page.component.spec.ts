@@ -58,6 +58,7 @@ describe('BlogOverviewPageComponent', () => {
   });
 
   it('should render a BlogOverviewCardComponent for each blog', () => {
-    // TODO: implement
+    const blogCards = ngMocks.findAll(BlogOverviewCardComponent);
+    expect(blogCards.length).toBe(2);
   });
 });
